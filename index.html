@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suyii Chinese</title>
+<style>
+:root{
+  --blue:#bfe9f5; --blue2:#dff7fb; --blue3:#75cfe3;
+  --ink:#18333d; --muted:#6b858d; --white:#fff;
+  --line:#d8edf1; --good:#69b99b; --bad:#e58b8b;
+  --shadow:0 10px 30px rgba(60,130,145,.12);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f7fcfd;color:var(--ink)}
+button{font:inherit;cursor:pointer;border:0}
+.app{display:flex;min-height:100vh}
+.sidebar{width:245px;background:#fff;border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh}
+.logo{font-size:24px;font-weight:800;margin:4px 10px 28px}
+.logo span{color:#4bb4cc}
+.nav button{width:100%;padding:13px 14px;border-radius:14px;background:transparent;text-align:left;color:var(--muted);margin:3px 0}
+.nav button.active,.nav button:hover{background:var(--blue2);color:var(--ink)}
+.main{flex:1;padding:30px;max-width:1300px;margin:auto;width:100%}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+h1{margin:0;font-size:30px}.subtitle{color:var(--muted);margin-top:6px}
+.pill{background:var(--blue2);padding:9px 14px;border-radius:999px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.hero{background:linear-gradient(135deg,#dff8fc,#bdeaf4);border:0}
+.hero h2{margin:0 0 7px;font-size:26px}
+.progress{height:9px;background:#edf4f5;border-radius:99px;overflow:hidden;margin:12px 0}
+.progress>div{height:100%;background:#63c4da;border-radius:99px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.btn{padding:11px 16px;border-radius:13px;background:var(--blue2);color:var(--ink);font-weight:700}
+.btn.primary{background:#67c6dc;color:#fff}
+.btn.ghost{background:#fff;border:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:#f8fcfd;border:1px solid var(--line);border-radius:16px;padding:14px}
+.stat b{font-size:22px;display:block}.muted{color:var(--muted)}
+.section{display:none}.section.active{display:block}
+.levels{display:flex;gap:12px;margin-bottom:18px}.level{flex:1;text-align:left}
+.level.selected{outline:2px solid #67c6dc;background:var(--blue2)}
+.topics{display:flex;flex-wrap:wrap;gap:9px;margin:15px 0}
+.topic{padding:9px 13px;border-radius:999px;background:#f1f8fa;border:1px solid var(--line)}
+.topic.selected{background:var(--blue2);border-color:#8ed8e7}
+.word-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.word{cursor:pointer}
+.hanzi{font-size:30px;font-weight:800}.pinyin{color:#58a9bd;margin:3px 0}.meaning{font-weight:600}
+.badge{display:inline-block;font-size:12px;padding:5px 8px;border-radius:999px;background:#edf8f4;color:#41866e}
+.badge.review{background:#fff1f1;color:#ad6565}
+.word-detail{text-align:center;max-width:650px;margin:0 auto}
+.bigword{font-size:64px;font-weight:850;margin:15px 0 4px}
+.hint{padding:14px;background:#f7fbfc;border:1px dashed var(--line);border-radius:15px;margin:12px 0}
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.choice{background:#fff;border:1px solid var(--line);padding:15px;border-radius:14px;text-align:left}
+.choice:hover{background:var(--blue2)}
+.quiz-q{font-size:22px;font-weight:750;margin:18px 0}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:13px;border-bottom:1px solid var(--line)}
+.mobile-nav{display:none}
+@media(max-width:800px){
+ .sidebar{display:none}.main{padding:18px 14px 85px}
+ .grid,.word-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,1fr)}
+ .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);z-index:10}
+ .mobile-nav button{flex:1;padding:11px 4px;background:#fff;color:var(--muted);font-size:12px}
+ .mobile-nav button.active{color:#319db7;background:var(--blue2)}
+ h1{font-size:25px}.bigword{font-size:54px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo">🩵 Suyii <span>Chinese</span></div>
+  <div class="nav">
+    <button class="active" data-page="home">🏠 Trang chủ</button>
+    <button data-page="vocab">📚 Từ vựng</button>
+    <button data-page="review">🔄 Ôn tập</button>
+    <button data-page="flashcard">🃏 Flashcard</button>
+    <button data-page="quiz">📝 Quiz</button>
+    <button data-page="progress">📊 Tiến bộ</button>
+    <button data-page="shadowing">🎧 Shadowing</button>
+    <button data-page="reading">📖 Đọc</button>
+  </div>
+</aside>
+
+<main class="main">
+<section id="home" class="section active">
+ <div class="top"><div><h1>你好, Suyii! 👋</h1><div class="subtitle">Hôm nay mình học tiếng Trung nhé.</div></div><div class="pill">🔥 <span id="streak">1</span> ngày</div></div>
+ <div class="card hero">
+   <h2>Tiếp tục học HSK5</h2><div class="subtitle">Tiến độ của bạn sẽ được lưu ngay trên trình duyệt này.</div>
+   <div class="progress"><div id="homeProgress" style="width:0%"></div></div>
+   <div class="row"><b id="homeProgressText">0 / 2500 từ</b><button class="btn primary" onclick="go('vocab')">Học ngay →</button></div>
+ </div>
+ <div class="grid" style="margin-top:18px">
+  <div class="card"><h3>HSK 4</h3><div class="progress"><div id="h4bar" style="width:0%"></div></div><div class="row"><span id="h4text">0 / 1200</span><button class="btn" onclick="selectLevel(4);go('vocab')">Mở</button></div></div>
+  <div class="card"><h3>HSK 5</h3><div class="progress"><div id="h5bar" style="width:0%"></div></div><div class="row"><span id="h5text">0 / 2500</span><button class="btn" onclick="selectLevel(5);go('vocab')">Mở</button></div></div>
+ </div>
+ <div class="card" style="margin-top:18px"><h3>Hôm nay</h3><div class="stats">
+   <div class="stat"><span class="muted">Cần ôn</span><b id="reviewCount">0</b></div>
+   <div class="stat"><span class="muted">Đã thuộc</span><b id="knownCount">0</b></div>
+   <div class="stat"><span class="muted">Quiz gần nhất</span><b id="lastQuiz">—</b></div>
+ </div></div>
+</section>
+
+<section id="vocab" class="section">
+ <div class="top"><div><h1>📚 Từ vựng</h1><div class="subtitle">Học theo chủ đề để nhớ dễ hơn.</div></div></div>
+ <div class="levels"><button id="l4" class="card level" onclick="selectLevel(4)">🩵 <b>HSK 4</b><br><span class="muted">1.200 từ</span></button><button id="l5" class="card level selected" onclick="selectLevel(5)">🩵 <b>HSK 5</b><br><span class="muted">2.500 từ</span></button></div>
+ <div class="card"><div class="row"><h3>Chủ đề</h3><button class="btn ghost" onclick="resetTopic()">Tất cả</button></div><div id="topics" class="topics"></div></div>
+ <div class="row" style="margin:18px 0"><span class="muted" id="wordCountLabel"></span><button class="btn primary" onclick="go('review')">🔄 Ôn từ chưa thuộc</button></div>
+ <div id="wordGrid" class="word-grid"></div>
+</section>
+
+<section id="review" class="section">
+ <div class="top"><div><h1>🔄 Ôn lại từ</h1><div class="subtitle">Chỉ nhìn chữ Hán trước. Gợi ý khi bạn cần.</div></div></div>
+ <div class="card word-detail">
+   <div class="muted" id="reviewIndex"></div><div class="bigword" id="reviewHanzi">—</div>
+   <div id="reviewPinyin" class="hint" style="display:none"></div>
+   <div id="reviewMeaning" class="hint" style="display:none"></div>
+   <div id="reviewExample" class="hint" style="display:none"></div>
+   <div class="choice-grid">
+    <button class="choice" onclick="reveal('pinyin')">🔤 Xem Pinyin</button>
+    <button class="choice" onclick="reveal('meaning')">💡 Xem nghĩa</button>
+    <button class="choice" onclick="reveal('example')">📖 Xem ví dụ</button>
+    <button class="choice" onclick="markReview(false)">❌ Chưa thuộc</button>
+   </div>
+   <div style="margin-top:14px"><button class="btn primary" onclick="markReview(true)">✅ Đã nhớ</button></div>
+ </div>
+</section>
+
+<section id="flashcard" class="section">
+ <div class="top"><div><h1>🃏 Flashcard</h1><div class="subtitle">Lật thẻ và tự đánh giá mức độ nhớ.</div></div></div>
+ <div class="card word-detail">
+   <div class="muted" id="fcIndex"></div><div class="bigword" id="fcHanzi">—</div>
+   <div id="fcBack" style="display:none"><div class="pinyin" id="fcPinyin"></div><div class="meaning" id="fcMeaning"></div><div class="hint" id="fcExample"></div></div>
+   <button class="btn primary" onclick="flipCard()" style="margin-top:15px">🔄 Lật thẻ</button>
+   <div class="choice-grid"><button class="choice" onclick="fcMark(false)">😵 Chưa nhớ</button><button class="choice" onclick="fcMark(true)">😎 Nhớ rồi</button></div>
+ </div>
+</section>
+
+<section id="quiz" class="section">
+ <div class="top"><div><h1>📝 Quiz</h1><div class="subtitle">Kiểm tra nhanh từ vựng.</div></div></div>
+ <div class="card word-detail"><div class="muted" id="quizProgress"></div><div class="quiz-q" id="quizQuestion"></div><div id="choices" class="choice-grid"></div><div id="quizResult" style="margin-top:15px;font-weight:750"></div></div>
+</section>
+
+<section id="progress" class="section">
+ <div class="top"><div><h1>📊 Tiến bộ</h1><div class="subtitle">Theo dõi quá trình học của bạn.</div></div></div>
+ <div class="grid"><div class="card"><h3>HSK 4</h3><div class="progress"><div id="p4bar"></div></div><b id="p4text">0 / 1200</b></div><div class="card"><h3>HSK 5</h3><div class="progress"><div id="p5bar"></div></div><b id="p5text">0 / 2500</b></div></div>
+ <div class="card" style="margin-top:18px"><h3>Thống kê</h3><table><tr><th>Chỉ số</th><th>Kết quả</th></tr><tr><td>Từ đã đánh dấu thuộc</td><td id="statKnown">0</td></tr><tr><td>Từ cần ôn</td><td id="statReview">0</td></tr><tr><td>Quiz gần nhất</td><td id="statQuiz">—</td></tr></table></div>
+</section>
+
+<section id="shadowing" class="section">
+ <div class="top"><div><h1>🎧 Shadowing</h1><div class="subtitle">Khu vực luyện nghe và nói sẽ được bổ sung.</div></div></div>
+ <div class="card"><h3>Phiên bản tiếp theo</h3><p class="muted">Mình sẽ thêm audio, transcript, pinyin, ẩn/hiện chữ và luyện shadowing theo bài.</p></div>
+</section>
+<section id="reading" class="section">
+ <div class="top"><div><h1>📖 Đọc</h1><div class="subtitle">Khu vực luyện đọc HSK sẽ được bổ sung.</div></div></div>
+ <div class="card"><h3>Phiên bản tiếp theo</h3><p class="muted">Mình sẽ thêm bài đọc HSK4/HSK5, câu hỏi và chấm điểm.</p></div>
+</section>
+</main>
+<nav class="mobile-nav">
+ <button class="active" data-page="home">🏠<br>Home</button><button data-page="vocab">📚<br>Từ</button><button data-page="review">🔄<br>Ôn</button><button data-page="quiz">📝<br>Quiz</button><button data-page="progress">📊<br>Tiến bộ</button>
+</nav>
+</div>
+
+<script>
+const topics=["Đời sống","Gia đình","Học tập","Công việc","Sức khỏe","Xã hội","Du lịch","Kinh tế","Cảm xúc","Thiên nhiên"];
+const sample=[
+ {h:"影响",p:"yǐngxiǎng",m:"ảnh hưởng",t:"Xã hội",e:"这个决定会影响很多人。"},
+ {h:"决定",p:"juédìng",m:"quyết định",t:"Đời sống",e:"我已经决定了。"},
+ {h:"发展",p:"fāzhǎn",m:"phát triển",t:"Xã hội",e:"城市发展得很快。"},
+ {h:"经验",p:"jīngyàn",m:"kinh nghiệm",t:"Công việc",e:"他有丰富的工作经验。"},
+ {h:"环境",p:"huánjìng",m:"môi trường",t:"Thiên nhiên",e:"我们应该保护环境。"},
+ {h:"提高",p:"tígāo",m:"nâng cao",t:"Học tập",e:"我想提高中文水平。"},
+ {h:"机会",p:"jīhuì",m:"cơ hội",t:"Công việc",e:"这是一个很好的机会。"},
+ {h:"关系",p:"guānxì",m:"mối quan hệ",t:"Xã hội",e:"他们的关系很好。"},
+ {h:"健康",p:"jiànkāng",m:"sức khỏe",t:"Sức khỏe",e:"健康很重要。"},
+ {h:"旅行",p:"lǚxíng",m:"du lịch",t:"Du lịch",e:"我喜欢旅行。"},
+ {h:"家庭",p:"jiātíng",m:"gia đình",t:"Gia đình",e:"我的家庭很幸福。"},
+ {h:"学习",p:"xuéxí",m:"học tập",t:"Học tập",e:"学习中文很有意思。"}
+];
+let state=JSON.parse(localStorage.getItem("suyiiChinese")||'{"known":[],"review":[],"quiz":null,"streak":1}');
+let level=5, topic="Tất cả", reviewIndex=0, fcIndex=0, quizIndex=0, quizScore=0;
+function save(){localStorage.setItem("suyiiChinese",JSON.stringify(state));updateStats()}
+function data(){return sample}
+function visibleWords(){return data().filter(x=>topic==="Tất cả"||x.t===topic)}
+function selectLevel(n){level=n;document.querySelectorAll(".level").forEach(x=>x.classList.remove("selected"));document.getElementById("l"+n).classList.add("selected");renderVocab()}
+function resetTopic(){topic="Tất cả";renderVocab()}
+function renderTopics(){document.getElementById("topics").innerHTML=topics.map(t=>`<button class="topic ${topic===t?"selected":""}" onclick="setTopic('${t}')">${t}</button>`).join("")}
+function setTopic(t){topic=t;renderVocab()}
+function renderVocab(){
+ renderTopics();let arr=visibleWords();document.getElementById("wordCountLabel").textContent=`Đang hiển thị ${arr.length} từ mẫu · HSK${level}`;
+ document.getElementById("wordGrid").innerHTML=arr.map((w,i)=>`<div class="card word" onclick="openWord(${i})"><span class="badge ${state.review.includes(w.h)?"review":""}">${state.known.includes(w.h)?"Đã thuộc":"Cần học"}</span><div class="hanzi">${w.h}</div><div class="pinyin">${w.p}</div><div class="meaning">${w.m}</div><div class="muted" style="margin-top:8px">${w.t}</div></div>`).join("");
+}
+function openWord(i){let w=visibleWords()[i];alert(`${w.h}\n${w.p}\n${w.m}\n\n${w.e}`)}
+function reviewList(){let arr=data().filter(w=>!state.known.includes(w.h));return arr.length?arr:data()}
+function renderReview(){let arr=reviewList();let w=arr[reviewIndex%arr.length];document.getElementById("reviewIndex").textContent=`Từ ${reviewIndex%arr.length+1} / ${arr.length}`;document.getElementById("reviewHanzi").textContent=w.h;document.getElementById("reviewPinyin").textContent=w.p;document.getElementById("reviewMeaning").textContent=w.m;document.getElementById("reviewExample").textContent=w.e;["Pinyin","Meaning","Example"].forEach(x=>document.getElementById("review"+x).style.display="none")}
+function reveal(x){document.getElementById("review"+x[0].toUpperCase()+x.slice(1)).style.display="block"}
+function markReview(ok){let w=reviewList()[reviewIndex%reviewList().length];if(ok){if(!state.known.includes(w.h))state.known.push(w.h);state.review=state.review.filter(x=>x!==w.h)}else{if(!state.review.includes(w.h))state.review.push(w.h)}reviewIndex++;save();renderReview()}
+function renderFC(){let arr=data();let w=arr[fcIndex%arr.length];document.getElementById("fcIndex").textContent=`Thẻ ${fcIndex%arr.length+1} / ${arr.length}`;document.getElementById("fcHanzi").textContent=w.h;document.getElementById("fcPinyin").textContent=w.p;document.getElementById("fcMeaning").textContent=w.m;document.getElementById("fcExample").textContent=w.e;document.getElementById("fcBack").style.display="none"}
+function flipCard(){document.getElementById("fcBack").style.display="block"}
+function fcMark(ok){let w=data()[fcIndex%data().length];if(ok&&!state.known.includes(w.h))state.known.push(w.h);if(!ok&&!state.review.includes(w.h))state.review.push(w.h);fcIndex++;save();renderFC()}
+function startQuiz(){quizIndex=0;quizScore=0;document.getElementById("quizResult").textContent="";renderQuiz()}
+function renderQuiz(){let arr=data(),w=arr[quizIndex%arr.length],others=arr.filter(x=>x.h!==w.h).sort(()=>Math.random()-.5).slice(0,3);let opts=[w,...others].sort(()=>Math.random()-.5);document.getElementById("quizProgress").textContent=`Câu ${quizIndex+1} / 10`;document.getElementById("quizQuestion").textContent=`“${w.h}” nghĩa là gì?`;document.getElementById("choices").innerHTML=opts.map(o=>`<button class="choice" onclick="answerQuiz('${o.h}','${w.h}')">${o.m}</button>`).join("")}
+function answerQuiz(a,b){if(a===b)quizScore++;quizIndex++;if(quizIndex>=10){state.quiz=quizScore*10;document.getElementById("quizResult").textContent=`🎉 Bạn được ${quizScore}/10 (${state.quiz}%)`;save();return}renderQuiz()}
+function updateStats(){
+ let k=state.known.length,r=state.review.length,p5=Math.min(100,k/25);
+ document.getElementById("knownCount").textContent=k;document.getElementById("reviewCount").textContent=r;document.getElementById("lastQuiz").textContent=state.quiz==null?"—":state.quiz+"%";
+ document.getElementById("homeProgress").style.width=p5+"%";document.getElementById("homeProgressText").textContent=`${k} / 2500 từ`;
+ document.getElementById("h4bar").style.width=Math.min(100,k/12)+"%";document.getElementById("h5bar").style.width=p5+"%";
+ document.getElementById("h4text").textContent=`${Math.min(k,1200)} / 1200`;document.getElementById("h5text").textContent=`${k} / 2500`;
+ document.getElementById("p4bar").style.width=Math.min(100,k/12)+"%";document.getElementById("p5bar").style.width=p5+"%";
+ document.getElementById("p4text").textContent=`${Math.min(k,1200)} / 1200`;document.getElementById("p5text").textContent=`${k} / 2500`;
+ document.getElementById("statKnown").textContent=k;document.getElementById("statReview").textContent=r;document.getElementById("statQuiz").textContent=state.quiz==null?"—":state.quiz+"%";
+ document.getElementById("streak").textContent=state.streak||1;
+}
+function go(page){document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));document.getElementById(page).classList.add("active");document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));if(page==="vocab")renderVocab();if(page==="review")renderReview();if(page==="flashcard")renderFC();if(page==="quiz")startQuiz();if(page==="progress")updateStats();window.scrollTo(0,0)}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+renderVocab();renderReview();renderFC();updateStats();
+</script>
+</body>
+</html>
